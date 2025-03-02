@@ -718,11 +718,17 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "###UNABLE TO SAVE OVER LAYERS AS SE\n",
-    "\n",
-    "cia.to_file('maps/countriesCIA.gpkg', driver='GPKG', layer='cia')\n",
-    "worldBorders.to_file('maps/countriesCIA.gpkg', driver='GPKG', layer='border')"
+    "###UNABLE TO SAVE OVER LAYERS AS SEEN IN LINE 57 OF TUTORIAL\n",
+    "###GIVES ERRROR UNABLE TO ACCESS DATABASE\n"
    ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ae19bf2c-7531-4b41-ae6a-fe761bf7712e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {

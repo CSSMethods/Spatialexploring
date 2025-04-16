@@ -1,0 +1,186 @@
+---
+title: "HW2"
+format: html
+editor: visual
+---
+
+```{r}
+GitLink='https://raw.githubusercontent.com/CSSMethods/Spatialexploring/refs/heads/main/MyGraphs/css_G.graphml'
+
+library(igraph)
+Peruvian=read_graph(GitLink,format='graphml')
+V(Peruvian)$name=V(Peruvian)$id 
+```
+
+##LOUVAIN METHOD
+
+```{r}
+set.seed(321)
+
+Peruvian_lv <- cluster_louvain(Peruvian)
+sizes(Peruvian_lv)
+```
+
+```{r}
+plot(Peruvian_lv, Peruvian,
+     layout = layout_with_kk, 
+     main="Louvain Solution")
+
+
+```
+
+```{r}
+modularity(Peruvian, membership(Peruvian_lv),directed = FALSE)
+
+```
+
+##LEIDEN METHOD
+
+```{r}
+Peruvian_ld <- cluster_leiden(Peruvian)
+sizes(Peruvian_ld)
+```
+
+```{r}
+set.seed(123)
+Peruvian_ld_mod <- cluster_leiden(Peruvian,
+                              objective_function ="modularity")
+
+sizes(Peruvian_ld_mod)
+```
+
+```{r}
+plot(Peruvian_ld_mod, Peruvian,
+     layout = layout_with_kk, 
+     main="Leiden Solution-using modularity")
+```
+
+```{r}
+modularity(Peruvian, membership(Peruvian_ld_mod))
+```
+
+##In this case, we would choose the Leiden method, as the calculated modularity is higher, representing a stronger community structure within the networks.
+
+##SEATTLE
+
+```{r}
+GitLink='https://raw.githubusercontent.com/CSSMethods/Spatialexploring/refs/heads/main/MyGraphs/css_dG.graphml'
+
+library(igraph)
+Seattle=read_graph(GitLink,format='graphml')
+V(Seattle)$name=V(Seattle)$id 
+```
+
+##LOUVAIN
+
+```{r}
+set.seed(321)
+##METHOD DOES NOT WORK
+##Seattle_lv <- cluster_louvain(Seattle)
+##sizes(Seattle_lv)
+```
+
+##LEIDEN METHOD
+
+```{r}
+##DOES NOT WORK, GRAPH IS DIRECTED VS UNDIRECTED
+Seattle <- cluster_leiden(Seattle)
+sizes(Seattle_ld)
+```
+
+##Neither of these methods worked, as they are intended for use with a undirected graph
+
+```{r}
+set.seed(333)
+Seattle_gn <- cluster_edge_betweenness(Seattle,directed = T)
+sizes(cluster_edge_betweenness(Seattle,directed = T))
+```
+
+```{r}
+plot(Seattle_gn, Seattle,
+     layout = layout_with_kk, 
+     main="Girvan-Newman Solution")
+```
+
+```{r}
+modularity(Seattle, membership(Seattle_gn),directed = FALSE)
+```
+
+```{r}
+sizes(cluster_infomap(Seattle))
+```
+
+```{r}
+set.seed(332)
+
+presis_info=cluster_infomap(Seattle)
+plot(presis_info, Seattle,
+     vertex.label=V(Seattle)$country,
+     layout = layout_nicely, vertex.label.cex=0.5,
+     main="Infomap solution")
+```
+
+```{r}
+modularity(Seattle, membership(presis_info))
+
+```
+
+##When comparing the above two graphs, it vcan be seen that we should choose the **Girvan-Newmann method**
+
+##FIFA DATA
+
+##Girvan-Newman
+
+```{r}
+GitLink='https://raw.githubusercontent.com/CSSMethods/Spatialexploring/refs/heads/main/MyGraphs/css_bP2.graphml'
+
+library(igraph)
+Fifa=read_graph(GitLink,format='graphml')
+V(Fifa)$name=V(Fifa)$id 
+```
+
+```{r}
+set.seed(123)
+Fifa_gn <- cluster_edge_betweenness(Fifa,directed = F)
+```
+
+```{r}
+sizes(Fifa_gn)
+```
+
+```{r}
+plot(Fifa_gn, Fifa,
+     layout = layout_with_kk, 
+     main="Girvan-Newman Solution")
+```
+
+```{r}
+modularity(Fifa, membership(Fifa_gn),directed = FALSE)
+```
+
+##Leiden
+
+```{r}
+Fifa_ld <- cluster_leiden(Fifa)
+sizes(Fifa_ld)
+```
+
+```{r}
+set.seed(123)
+Fifa_ld_mod <- cluster_leiden(Fifa,
+                              objective_function ="modularity")
+
+sizes(Fifa_ld_mod)
+```
+
+```{r}
+plot(Fifa_ld_mod, Fifa,
+     layout = layout_with_kk, 
+     main="Leiden Solution-using modularity")
+```
+
+```{r}
+modularity(Peruvian, membership(Peruvian_ld_mod))
+```
+
+##When comparing these two methods with this graph, we see that the Girvan-Newman method should be chosen. Its modularity is much higher than the Leiden algorithm, signifying a stronger network

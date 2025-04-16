@@ -84,8 +84,8 @@ set.seed(321)
 
 ```{r}
 ##DOES NOT WORK, GRAPH IS DIRECTED VS UNDIRECTED
-Seattle <- cluster_leiden(Seattle)
-sizes(Seattle_ld)
+#Seattle <- cluster_leiden(Seattle)
+#sizes(Seattle_ld)
 ```
 
 ##Neither of these methods worked, as they are intended for use with a undirected graph
